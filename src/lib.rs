@@ -1,4 +1,4 @@
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug)]
 pub enum Operator {
     Add,
     Sub,
@@ -8,7 +8,7 @@ pub enum Operator {
     ClosingPerenthesis,
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug)]
 pub enum Token {
     Number(f64),
     Operator(Operator, u32),
