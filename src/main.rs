@@ -22,10 +22,8 @@ fn main() {
     io::stdin().read_line(&mut input).unwrap();
 
     let tokenized = tokenization(input);
-    println!("tokenized: {:?}", tokenized);
 
     let converted = convert_to_postfix(tokenized);
-    println!("converted: {:?}", converted);
 
     let calculated = calculate(converted);
     println!("result: {}", calculated)
