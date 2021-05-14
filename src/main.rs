@@ -1,7 +1,7 @@
 use std::collections::VecDeque;
 use std::io;
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 enum Operator {
     Add,
     Sub,
@@ -11,9 +11,9 @@ enum Operator {
     ClosingPerenthesis,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 enum Token {
-    Number(i64),
+    Number(f64),
     Operator(Operator, u32),
 }
 
@@ -22,10 +22,13 @@ fn main() {
     io::stdin().read_line(&mut input).unwrap();
 
     let tokenized = tokenization(input);
-    println!("{:?}", tokenized);
+    println!("tokenized: {:?}", tokenized);
 
     let converted = convert_to_postfix(tokenized);
-    println!("{:?}", converted);
+    println!("converted: {:?}", converted);
+
+    let calculated = calculate(converted);
+    println!("result: {}", calculated)
 }
 
 fn tokenization(str: String) -> Vec<Token> {
@@ -41,11 +44,11 @@ fn tokenization(str: String) -> Vec<Token> {
         } else if token == "/" {
             result1.push(Token::Operator(Operator::Div, 1));
         } else if token == "(" {
-            result1.push(Token::Operator(Operator::OpeningPerenthesis, 0));
+            result1.push(Token::Operator(Operator::OpeningPerenthesis, 100));
         } else if token == ")" {
-            result1.push(Token::Operator(Operator::ClosingPerenthesis, 0));
+            result1.push(Token::Operator(Operator::ClosingPerenthesis, 100));
         } else {
-            result1.push(Token::Number(token.parse::<i64>().unwrap()));
+            result1.push(Token::Number(token.parse::<f64>().unwrap()));
         }
     }
     result1
@@ -64,6 +67,7 @@ fn convert_to_postfix(tokenized: Vec<Token>) -> Vec<Token> {
             Some(Token::Operator(Operator::ClosingPerenthesis, _)) => loop {
                 match operator_temp.pop() {
                     Some((Operator::OpeningPerenthesis, _)) => {
+                        // println!("{:?} {}", operator_temp, "OpeningPerenthesis");
                         break;
                     }
                     Some((top_o, top_p)) => {
@@ -95,4 +99,36 @@ fn convert_to_postfix(tokenized: Vec<Token>) -> Vec<Token> {
     }
 
     result
+}
+
+fn calculate(converted: Vec<Token>) -> f64 {
+    let mut converted: VecDeque<Token> = converted.into_iter().collect();
+    let mut stack = Vec::new();
+    while let Some(token) = converted.pop_front() {
+        match token {
+            Token::Number(n) => stack.push(n),
+            Token::Operator(Operator::Add, _) => {
+                let a = stack.pop().unwrap();
+                let b = stack.pop().unwrap();
+                stack.push(a + b);
+            }
+            Token::Operator(Operator::Sub, _) => {
+                let a = stack.pop().unwrap();
+                let b = stack.pop().unwrap();
+                stack.push(a + b);
+            }
+            Token::Operator(Operator::Mul, _) => {
+                let a = stack.pop().unwrap();
+                let b = stack.pop().unwrap();
+                stack.push(a * b);
+            }
+            Token::Operator(Operator::Div, _) => {
+                let a = stack.pop().unwrap();
+                let b = stack.pop().unwrap();
+                stack.push(a / b);
+            }
+            _ => (),
+        }
+    }
+    stack.pop().unwrap()
 }
