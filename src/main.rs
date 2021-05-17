@@ -1,9 +1,9 @@
 extern crate stack_based_calculator;
 use std::io;
 
-use stack_based_calculator::tokenizer::tokenize;
-use stack_based_calculator::converter::convert_to_postfix;
 use stack_based_calculator::calculator::calculate;
+use stack_based_calculator::converter::convert_to_postfix;
+use stack_based_calculator::tokenizer::tokenize;
 
 fn main() {
     let mut input = String::new();

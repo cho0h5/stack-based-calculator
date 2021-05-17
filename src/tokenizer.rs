@@ -13,6 +13,8 @@ pub fn tokenize(str: String) -> Vec<Token> {
             result1.push(Token::Operator(Operator::Mul, 1));
         } else if token == "/" {
             result1.push(Token::Operator(Operator::Div, 1));
+        } else if token == "^" {
+            result1.push(Token::Operator(Operator::Pow, 0));
         } else if token == "(" {
             result1.push(Token::Operator(Operator::OpeningPerenthesis, 100));
         } else if token == ")" {

@@ -4,6 +4,7 @@ pub enum Operator {
     Sub,
     Mul,
     Div,
+    Pow,
     OpeningPerenthesis,
     ClosingPerenthesis,
 }
@@ -14,6 +15,6 @@ pub enum Token {
     Operator(Operator, u32),
 }
 
-pub mod tokenizer;
-pub mod converter;
 pub mod calculator;
+pub mod converter;
+pub mod tokenizer;

@@ -10,24 +10,29 @@ pub fn calculate(converted: Vec<Token>) -> f64 {
         match token {
             Token::Number(n) => stack.push(n),
             Token::Operator(Operator::Add, _) => {
-                let a = stack.pop().unwrap();
                 let b = stack.pop().unwrap();
+                let a = stack.pop().unwrap();
                 stack.push(a + b);
             }
             Token::Operator(Operator::Sub, _) => {
-                let a = stack.pop().unwrap();
                 let b = stack.pop().unwrap();
+                let a = stack.pop().unwrap();
                 stack.push(a + b);
             }
             Token::Operator(Operator::Mul, _) => {
-                let a = stack.pop().unwrap();
                 let b = stack.pop().unwrap();
+                let a = stack.pop().unwrap();
                 stack.push(a * b);
             }
             Token::Operator(Operator::Div, _) => {
-                let a = stack.pop().unwrap();
                 let b = stack.pop().unwrap();
+                let a = stack.pop().unwrap();
                 stack.push(a / b);
+            }
+            Token::Operator(Operator::Pow, _) => {
+                let b = stack.pop().unwrap();
+                let a = stack.pop().unwrap();
+                stack.push(a.powf(b));
             }
             _ => (),
         }
